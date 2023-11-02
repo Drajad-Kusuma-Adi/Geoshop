@@ -7,7 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Products</title>
+    <title>Transaction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         * {
@@ -82,27 +82,40 @@ session_start();
         </div>
     </header>
     <main>
+        <div class="d-flex flex-column flex-md-row">
+            <div class="container" style="background-color: #F6F4EB">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="d-inline-flex align-items-center mb-3">
+                            <img src="image.jpg" width="40" height="40" class="m-2">
+                            <span>Product Name - $XX</span>
+                        </div>
 
+                        <div class="d-inline-flex align-items-center mb-3">
+                            <img src="image.jpg" width="40" height="40" class="m-2">
+                            <span>Another Product - $YY</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card mx-auto my-5">
+                            <div class="card-header" style="background-color: #F6F4EB;">
+                                <h5 class="card-title mb-0">Transaction Details</h5>
+                            </div>
+                            <div class="card-body" style="background-color: #F6F4EB;">
+                                <p class="card-text">Transaction ID: XXXXXX</p>
+                                <p class="card-text">Amount: $YY.YY</p>
+                                <p class="card-text">Date: Month DD, YYYY</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
-    <!-- <form action="../php/manageProduct.php" method="post" enctype='multipart/form-data'>
-        <label for="productImage"><img src="../images/blankShop.png" alt="Product Image label" width="10%" height="10%"></label>
-        <input type="file" name="productImage" id="productImage">
-        <br>
-        <label for="productName">Product name:</label>
-        <br>
-        <input type="text" name="productName" id="productName">
-        <br>
-        <label for="productDescription">Description:</label>
-        <br>
-        <input type="text" name="productDescription" id="productDescription">
-        <br>
-        <label for="productPrice">Price:</label>
-        <br>
-        IDR
-        <input type="number" name="productPrice" id="productPrice">
-        <br>
-        <input type="submit" value="Add">
-    </form> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
