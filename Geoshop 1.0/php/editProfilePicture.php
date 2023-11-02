@@ -5,7 +5,7 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $editProfilePicture = $_FILES["editProfilePicture"];
 
-        $target_dir = "../user/profilePicture/";
+        $target_dir = "../profilePicture/";
         $nameProfilePicture = basename($_FILES["editProfilePicture"]["name"]);
         $randomFileName = uniqid() . "_" . $nameProfilePicture;
         $target_file = $target_dir . $randomFileName;
