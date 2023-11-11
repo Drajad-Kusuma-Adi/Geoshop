@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
 
     if ($stmt->errno) {
+        header("Location: ../error.php");
         die();
     }
 
@@ -24,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $profile = $result->fetch_assoc();
         header("Location: ../user/userMap.php");
     } else {
-        echo "<a href='../loginPage.php'>Retry</a>";
+        header("Location: ../loginPage.php?invalid=1");
         die("Invalid data");
     }
 
@@ -38,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["timeout"] = $profile["is_timeout"];
     $_SESSION["banned"] = $profile["is_ban"];
 
-    // Get shop data
     if ($_SESSION["isShop"] == 1) {
         $sql = "SELECT * FROM shops WHERE owner_id=?";
         $stmt = $conn->prepare($sql);

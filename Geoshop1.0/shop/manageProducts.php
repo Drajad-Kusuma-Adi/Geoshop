@@ -7,7 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction</title>
+    <title>Manage Products</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         * {
@@ -82,39 +82,44 @@ session_start();
         </div>
     </header>
     <main>
-        <div class="d-flex flex-column flex-md-row">
-            <div class="container" style="background-color: #F6F4EB">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="d-inline-flex align-items-center mb-3">
-                            <img src="image.jpg" width="40" height="40" class="m-2">
-                            <span>Product Name - $XX</span>
-                        </div>
+        <?php
+        require_once "../php/config.php";
+        $sql = "SELECT * FROM products WHERE shop_id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $value1);
+        $value1 = $_SESSION["assetId"];
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_all(MYSQLI_ASSOC);
 
-                        <div class="d-inline-flex align-items-center mb-3">
-                            <img src="image.jpg" width="40" height="40" class="m-2">
-                            <span>Another Product - $YY</span>
+        foreach ($row as $value) {
+            $productId = $value['product_id'];
+            $productName = $value['product_name'];
+            $shopId = $value['shop_id'];
+            $photo = $value['photo'];
+            $price = $value['price'];
+            $stock = $value['stock'];
+            $description = $value['description'];
+        ?>
+            <div class="d-flex flex-row justify-content-center flex-wrap m-3">
+                <div class="d-flex flex-column m-2 rounded-3" style="background-color: white;">
+                    <img src="<?php
+                                if ($photo == null) {
+                                    echo "../images/blankShop.png";
+                                } else {
+                                    echo $photo;
+                                }
+                                ?>" alt="Product Image" width="100%" height="50%" class="align-self-center">
+                    <div class="d-flex flex-column justify-content-between m-4" style="height: 100%;">
+                        <div>
+                            <p class="fs-2 fw-bold text-center"><?php echo $productName ?></p>
+                            <p class="fs-4 text-center"><?php echo "IDR. " . strval(number_format($price)); ?></p>
                         </div>
                     </div>
+                    <a href="modifyProduct.php?productId=<?php echo $productId ?>" class="bg-primary text-center fs-3 fw-bold px-4 py-2 rounded-3" style="color: white; width: 100%;">Modify</a>
                 </div>
             </div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card mx-auto my-5">
-                            <div class="card-header" style="background-color: #F6F4EB;">
-                                <h5 class="card-title mb-0">Transaction Details</h5>
-                            </div>
-                            <div class="card-body" style="background-color: #F6F4EB;">
-                                <p class="card-text">Transaction ID: XXXXXX</p>
-                                <p class="card-text">Amount: $YY.YY</p>
-                                <p class="card-text">Date: Month DD, YYYY</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php } ?>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

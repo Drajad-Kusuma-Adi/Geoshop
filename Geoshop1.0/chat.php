@@ -57,7 +57,7 @@ require_once "php/config.php";
                 <div class="d-flex flex-row align-self-center">
                     <div class="text-center">
                         <form action="" method="post">
-                            <div class="bg-white p-1 rounded-pill border border-2" style="width: 80vw;">
+                            <div class="bg-white p-1 rounded-pill border border-2" style="@media screen and (max-width: 768px) { width: 80vw; }">
                                 <label style="cursor: pointer;">
                                     <input type="submit" value="" style="display: none;">
                                     <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -152,58 +152,10 @@ require_once "php/config.php";
                     <?php
                     }
                     ?>
-                </div>
-            </div>
-            <div class="container chatPanel" style="display: none; width: 100%; height: 100%;">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="d-flex align-items-center">
-                                    <img src="target-user-photo.jpg" alt="Target photo" class="rounded-circle mr-2" width="50">
-                                    <h5 class="mb-0">Target User</h5>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="media">
-                                            <img src="user-photo.jpg" alt="User Photo" class="rounded-circle mr-3" width="50">
-                                            <div class="media-body">
-                                                <h5 class="mt-0">User</h5>
-                                                <p>Hi there!</p>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <img src="target-user-photo.jpg" alt="Target User Photo" class="rounded-circle mr-3" width="50">
-                                            <div class="media-body">
-                                                <h5 class="mt-0">Target User</h5>
-                                                <p>Hello!</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <form>
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="3" placeholder="Type your message here"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Send</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    TODO: Something's wrong, I can feel it
                 </div>
             </div>
     </main>
-    <!-- <script>
-        let chatTab = document.getElementsByClassName("chatTab")[0];
-        let chatPanel = document.getElementsByClassName("chatPanel")[0];
-        chatTab.addEventListener("click", function() {
-            chatPanel.style.display = "block";
-        })
-    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
