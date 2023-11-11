@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +12,19 @@
             margin: 0;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
+
         body {
             background-color: #F1F1F1;
             color: black;
         }
+
         a {
             text-decoration: none;
             color: black;
         }
     </style>
 </head>
+
 <body>
     <main class="container d-flex justify-content-center align-items-center" style="margin-top: 5%;">
         <div class="container d-flex flex-column justify-content-center align-items-center">
@@ -70,6 +74,14 @@
                                 <input type="submit" class="btn btn-primary mt-3 w-75" value="Register">
                             </div>
                         </form>
+                        <?php
+                        if (isset($_GET["invalid"])) {
+                            echo "<p class='text-white text-center bg-danger p-2 mt-2 mb-0'>Password does not match</p>";
+                        }
+                        if (isset($_GET["exist"])) {
+                            echo "<p class='text-white text-center bg-danger p-2 mt-2 mb-0'>Email already registered</p>";
+                        }
+                        ?>
                     </div>
                 </div>
                 <p class="text-start">Already have an account? <a href="loginPage.php" style="color: blue;">Login</a></p>
@@ -78,4 +90,5 @@
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
+
 </html>

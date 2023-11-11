@@ -7,7 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product View</title>
+    <title>Transaction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         * {
@@ -82,47 +82,72 @@ session_start();
         </div>
     </header>
     <main>
-        <div class="container-fluid d-flex flex-md-row flex-column mt-2">
-            <div class="d-flex flex-column p-4 col-md-8 col-12" style="background-color: #F6F4EB;">
-                <div class="d-flex flex-column align-items-start justify-content-center">
-                    <img src="../images/blankShop.png" alt="Random Product Image" width="25%" height="auto">
-                    <p class="fs-2 fw-bold">Random Title</p>
-                    <p class="fs-3 fw-bold">Random Price</p>
-                    <p>Random Description</p>
-                </div>
-                <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="d-flex flex-column flex-md-row">
+            <div class="container m-4" style="background-color: #F6F4EB;">
+                <h1>Cart Items</h1>
+                <ul class="list-group">
+                    <?php
+                    $total_price = 0;
+                    foreach ($_SESSION['cart'] as $item) :
+                        $total_price += $item['productPrice'];
+                    ?>
+                        <li class="list-group-item">
+                            <div class="d-flex flex-row">
+                                <div>
+                                    <img src="<?php echo $item['productPhoto']; ?>" alt="Product Photo" width="100vw" height="100vh" class="rounded">
+                                </div>
+                                <div class="ms-4">
+                                    <p class="fs-3"><?php echo $item['productName']; ?></p>
+                                    <p class="fs-6">IDR. <?php echo number_format($item['productPrice']); ?></p>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endforeach;
+                    $_SESSION['total'] = $total_price; ?>
                     <form action="" method="post">
-                        <input type="text" name="itemName" id="itemName" hidden>
-                        <input type="text" name="itemPrice" id="itemPrice" hidden>
-                        <div class="d-flex flex-column align-items-center">
-                            <input type="submit" name="addToCart" id="addToCart" value="Add to cart" class="btn btn-primary fs-2 fw-bold">
-                            <p>Remaining stocks: 13</p>
-                        </div>
+
                     </form>
-                </div>
+                </ul>
             </div>
-            <div class="d-flex flex-column p-4 col-md-4 col-12 mb-2" style="background: #F6F4EB;">
-                <div class="d-flex flex-column">
-                    <form action="../php/postComment.php" method="post">
-                        <div class="d-flex flex-row flex-nowrap">
-                            <img src="../images/blankUser.png" alt="Profile Picture" width="48" height="48" class="me-2">
-                            <input type="text" name="typeCommentBox" id="typeCommentBox" placeholder="Enter your comment" class="me-2 p-2 rounded">
-                            <div class="btn btn-secondary rounded-circle">
-                                <label style="cursor: pointer;">
-                                    <input type="submit" value="" style="display: none;">
-                                    <svg fill="#ffffff" width="24px" height="24px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>paper-plane</title>
-                                            <path d="M0 14.016l9.216 6.912 18.784-16.928-14.592 20.064 10.592 7.936 8-32zM8 32l6.016-4-6.016-4v8z"></path>
-                                        </g>
-                                    </svg>
-                                </label>
+            <?php
+            require_once "../php/config.php";
+
+            $sql = "INSERT INTO transactions (price, transaction_id) VALUES (?, ?)";
+            $stmt = $conn->prepare($sql);
+            $transaction_id = mt_rand(1000000000, 2147483647);
+            $stmt->bind_param("ss", $total_price, $transaction_id);
+            $stmt->execute();
+
+            $sql = "SELECT * FROM transactions WHERE transaction_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $transaction_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            ?>
+            <div class="container m-4">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card mx-auto my-5">
+                            <div class="card-header" style="background-color: #F6F4EB;">
+                                <h5 class="card-title mb-0">Transaction Details</h5>
+                            </div>
+                            <div class="card-body" style="background-color: #F6F4EB;">
+                                <p class="card-text">Transaction ID: <?php echo $row['transaction_id'] ?></p>
+                                <p class="card-text">Total Price: IDR. <?php echo number_format($row['price']) ?></p>
+                                <p class="card-text">Payment Datetime: <?php if ($row['payment_datetime'] != null) {
+                                                                            echo date("Y-m-d H:i:s", strtotime($row['payment_time']));
+                                                                        } else {
+                                                                            echo "N/A";
+                                                                        } ?></p>
+                                <p class="card-text">Confirmation Datetime: <?php if ($row['confirmation_datetime'] != null) {
+                                                                                echo date("Y-m-d H:i:s", strtotime($row['confirmation_datetime']));
+                                                                            } else {
+                                                                                echo "N/A";
+                                                                            } ?> </p>
                             </div>
                         </div>
-                    </form>
-                    <hr>
+                    </div>
                 </div>
             </div>
         </div>

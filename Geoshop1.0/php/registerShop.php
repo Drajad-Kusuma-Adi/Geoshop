@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die();
     }
     if ($result->num_rows > 0) {
-        header("Location: ../user/userProfile.php");
+        header("Location: ../user/userProfile.php?exist=1");
         die();
     } else {
         $sql = "INSERT INTO shops (shop_name, latitude, longitude, owner_id) VALUES (?, ?, ?, ?)";

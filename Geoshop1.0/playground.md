@@ -109,4 +109,23 @@ HOW TF DO I CALCULATE DISTANCE
 WTF IS A HAVERSINE FUCKIN FORMULA
 
 **manageProducts.php**
-SELECT \* products WHERE shop*id = $*[]
+SELECT \* FROM products WHERE shop_id = $assetId -> fetch_all(MYSQLI_ASSOC) -> foreach products as card
+
+Out of nowhere map is malfunctioning again, also getSgopData.php doesn't set session variable for some reason.
+And for some reason it works again, wtf.
+
+<!-- **chatPanel.php**
+Redirected from shopView.php -> Carry data of target user
+
+Use AJAX in shopView.php? -->
+
+Nevermind I've finished chatting backend. Just need to style the frontend, look for "TODO: Style message box" in chatLog.php
+
+**Forgot and reset password system**
+
+1. User input their email address onto the form in forgotPasswordPage.php
+2. Backend process to check if the email exist in database
+3. If email exist, redirect to resetPasswordPage.php
+4. Prompt the user to set new password
+5. New password set, redirect to loginPage.php
+6. If reset password fail due to unknown reason, redirect to error.php
