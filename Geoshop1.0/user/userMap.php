@@ -1,5 +1,8 @@
 <?php
 session_start();
+if ($_SESSION['userId'] == null) {
+    header("Location: ../guest/guestMap.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,6 +74,26 @@ session_start();
                                 </svg>
                                 Chat
                             </a></li>
+                        <li><a href="checkoutTransactionPage.php" class="dropdown-item">
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <title>Shopping-cart</title>
+                                        <g id="🖥-Landing" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="Artboard" transform="translate(-74.000000, -239.000000)">
+                                                <g id="Shopping-cart" transform="translate(74.000000, 239.000000)">
+                                                    <rect id="Rectangle" x="0" y="0" width="24" height="24"> </rect>
+                                                    <path d="M2.5,3.5 L4.57364,3.5 C4.81929,3.5 5.02855,3.67844 5.06736,3.921 L6.73058,14.3158 C6.88582,15.286 7.72287,15.9998 8.70546,15.9998 L17.3957,15.9998 C18.3331,15.9998 19.1447,15.3487 19.3481,14.4337 L20.7296,8.21674 C20.8684,7.59222 20.3932,6.9998 19.7534,6.9998 L5.83997,6.9998" id="Path" stroke="#0C0310" stroke-width="2" stroke-linecap="round"> </path>
+                                                    <circle id="Oval" stroke="#0C0310" stroke-width="2" stroke-linecap="round" cx="9.5" cy="21" r="1"> </circle>
+                                                    <circle id="Oval" stroke="#0C0310" stroke-width="2" stroke-linecap="round" cx="16.5" cy="21" r="1"> </circle>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                                Transaction
+                            </a></li>
                         <li><a href="../php/logout.php" class="dropdown-item">
                                 <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -110,13 +133,9 @@ session_start();
                     }
                 })();
 
-                console.log(userPosition);
-
                 function geoSuccess(position) {
                     userPosition.latitude = position.coords.latitude;
                     userPosition.longitude = position.coords.longitude;
-                    document.cookie = `latitude=${position.coords.latitude}; path=/`;
-                    document.cookie = `longitude=${position.coords.longitude}; path=/`;
 
                     displayMap(userPosition.latitude, userPosition.longitude, 20);
                 }
@@ -135,7 +154,7 @@ session_start();
                         iconSize: [20, 40]
                     });
 
-                    const apiUrl = 'http://localhost/Geoshop/Geoshop%201.0/php/getShopLocation.php';
+                    const apiUrl = 'http://localhost/Geoshop/Geoshop1.0/php/getShopLocation.php';
                     fetch(apiUrl)
                         .then(response => {
                             if (!response.ok) {
@@ -148,9 +167,8 @@ session_start();
                                 let distance = calculateDistance(latitude, longitude, shop.latitude, shop.longitude);
                                 let userId = document.getElementById('data').dataset.userId;
                                 let shopOwnerId = shop.owner_id.toString();
-                                console.log(typeof shopId);
 
-                                if (distance <= 1) {
+                                if (distance <= 5) {
                                     if (shopOwnerId != userId) {
                                         let iconOptions = {
                                             title: shop.shop_name,
@@ -160,16 +178,30 @@ session_start();
                                         let shopId = shop.shop_id;
                                         let shopName = shop.shop_name;
                                         let shopPhoto = shop.shop_photo;
+                                        let userLatitude = userPosition.latitude;
+                                        let userLongitude = userPosition.longitude;
                                         let shopMarker = L.marker([shop.latitude, shop.longitude], iconOptions).addTo(map);
-                                        shopMarker.bindPopup(
-                                            `<div class="d-flex flex-row justify-content-center">
-                                                <img src="${shopPhoto}" alt="Shop Photo" width="24" height="24">
-                                                <div>
-                                                    <div>${shopName}</div>
-                                                    <div><a href="../php/getShopData.php?shopId=${shopId}">Click to view</a></div>
-                                                </div>
-                                            </div>`
-                                        );
+                                        if (shopPhoto == null) {
+                                            shopMarker.bindPopup(
+                                                `<div class="d-flex flex-row justify-content-center">
+                                                    <img src="../images/blankShop.png" alt="" width="24" height="24" class="me-2">
+                                                    <div>
+                                                        <div>${shopName}</div>
+                                                        <div><a href="../php/getShopData.php?shopId=${shopId}&userLatitude=${userLatitude}&userLongitude=${userLongitude}">Click to view</a></div>
+                                                    </div>
+                                                </div>`
+                                            );
+                                        } else {
+                                            shopMarker.bindPopup(
+                                                `<div class="d-flex flex-row justify-content-center">
+                                                        <img src="${shopPhoto}" alt="" width="24" height="24" class="me-2">
+                                                        <div>
+                                                            <div>${shopName}</div>
+                                                            <div><a href="../php/getShopData.php?shopId=${shopId}&userLatitude=${userLatitude}&userLongitude=${userLongitude}">Click to view</a></div>
+                                                        </div>
+                                                    </div>`
+                                            );
+                                        }
                                         shopMarker.on('click', function(e) {
                                             shopMarker.openPopup();
                                         });
@@ -204,9 +236,6 @@ session_start();
                         let theta = longitude1 - longitude2;
                         let radiusTheta = Math.PI * theta / 180;
                         let distance = Math.sin(radiusLatitude1) * Math.sin(radiusLatitude2) + Math.cos(radiusLatitude1) * Math.cos(radiusLatitude2) * Math.cos(radiusTheta);
-                        if (distance > 1) {
-                            distance = 1;
-                        }
                         distance = Math.acos(distance);
                         distance = distance * 180 / Math.PI;
                         distance = distance * 60 * 1.1515 * 1.609344;
@@ -214,8 +243,8 @@ session_start();
                     }
                 }
             </script>
-
         </div>
+
     </main>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

@@ -104,8 +104,8 @@ session_start();
                             <div class="fs-6">Approximately <?php
                                                             $shopLatitude = $_SESSION['shopLatitude'];
                                                             $shopLongitude = $_SESSION['shopLongitude'];
-                                                            $userLatitude = $_COOKIE['latitude'];
-                                                            $userLongitude = $_COOKIE['longitude'];
+                                                            $userLatitude = $_SESSION['userLatitude'];
+                                                            $userLongitude = $_SESSION['userLongitude'];
                                                             $earthRadius = 6371;
                                                             $latitudeDistance = deg2rad($userLatitude - $shopLatitude);
                                                             $longitudeDistance = deg2rad($userLongitude - $shopLongitude);
@@ -118,7 +118,17 @@ session_start();
                         </div>
                     </div>
                     <div class="d-flex flex-row justify-content-end ">
-                        <a href="#" class="btn btn-secondary my-1 mx-1 align-self-end"><svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <a href="../chatLog.php?targetId=<?php
+                                                            $sql = "SELECT * FROM shops WHERE shop_id = ?";
+                                                            $stmt = $conn->prepare($sql);
+                                                            $stmt->bind_param("s", $value1);
+                                                            $value1 = $_SESSION['shopId'];
+                                                            $stmt->execute();
+                                                            $result = $stmt->get_result();
+                                                            $row = $result->fetch_assoc();
+
+                                                            echo $row['owner_id'];
+                                                            ?>" class="btn btn-secondary my-1 mx-1 align-self-end"><svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                 <g id="SVGRepo_iconCarrier">
@@ -214,22 +224,43 @@ session_start();
                         ?>
                     </div>
                 </div>
-                <div class="d-flex flex-row justify-content-center flex-wrap m-3">
-                    <div class="d-flex flex-column m-2 rounded-3" style="background-color: white;">
-                        <img src="../images/blankShop.png" alt="Product Image" width="100" height="100" class="align-self-center m-4">
-                        <div class="d-flex flex-column justify-content-between m-4" style="height: 100%;">
-                            <div>
-                                <p class="fs-2 fw-bold">Product Name</p>
-                                <p class="fs-4">Pricing</p>
-                            </div>
-                        </div>
-                        <a href="#" class="bg-primary text-center fs-3 fw-bold px-4 py-2 rounded-3" style="color: white; width: 100%;">Add to cart</a>
-                    </div>
+                <div class="container-fluid d-flex flex-row flex-wrap justify-content-center">
+                    <?php
+                    require_once "../php/config.php";
+                    $sql = "SELECT * FROM products WHERE shop_id=?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("s", $value1);
+                    $value1 = $_SESSION['shopId'];
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    while ($row = $result->fetch_assoc()) {
+                        $productId = $row["product_id"];
+                        $productName = $row["product_name"];
+                        $productPrice = $row["price"];
+                        $productPhoto = $row["photo"];
+                        $productStock = $row["stock"];
+                        $productDescription = $row["description"];
+
+                        echo '<div class="d-flex flex-column justify-content-center m-3 w-25">';
+                        echo '<div class="d-flex flex-column m-2 rounded-3" style="background-color: white;">';
+                        echo '<img src="' . ($productPhoto != null ? $productPhoto : "../images/blankProduct.png") . '" alt="Product Image" width="100" height="100" class="align-self-center m-4">';
+                        echo '<div class="d-flex flex-column justify-content-between m-4" style="height: 100%;">';
+                        echo '<div class="text-center">';
+                        echo '<p class="fs-2 fw-bold">' . $productName . '</p>';
+                        echo '<p class="fs-4"> IDR. ' . number_format($productPrice) . '</p>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '<a href="productView.php?productId=' . $productId . '" class="bg-primary text-center fs-3 fw-bold px-4 py-2 rounded-3" style="color: white; width: 100%;">Add to cart</a>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

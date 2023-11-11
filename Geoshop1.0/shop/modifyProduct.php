@@ -7,7 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Products</title>
+    <title>Modify Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         * {
@@ -82,27 +82,69 @@ session_start();
         </div>
     </header>
     <main>
+        <?php
+        require_once "../php/config.php";
+        $sql = "SELECT * FROM products WHERE product_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $_GET['productId']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
 
+        $productId = $row["product_id"];
+        $productName = $row["product_name"];
+        $productDescription = $row["description"];
+        $productPrice = $row["price"];
+        $productImage = $row["photo"];
+        $productStock = $row["stock"];
+        ?>
+
+        <form action="../php/modifyProduct.php" method="post" enctype='multipart/form-data'>
+            <input type="text" name="productId" id="productId" value="<?php echo $productId ?>" readonly hidden>
+            <div class="container p-4 rounded" style="background-color: #F6F4EB; text-align: center;">
+                <div class="form-group mb-3">
+                    <img src="<?php
+                                if ($productImage != null) {
+                                    echo $productImage;
+                                } else {
+                                    echo "../images/blankProduct.png";
+                                }
+                                ?>" alt="Product Image label" width="100" height="100" class="text-center rounded-circle">
+                    <label for="productImage" class="d-flex align-items-center">
+                        Product Image
+                    </label>
+                    <input class="form-control" type="file" name="productImage" id="productImage" enctype="multipart/form-data">
+                </div>
+                <br>
+                <div class="form-group mb-3">
+                    <label for="productName">Product name:</label>
+                    <input class="form-control" type="text" name="productName" id="productName" value="<?php echo $productName; ?>">
+                </div>
+                <br>
+                <div class="form-group mb-3">
+                    <label for="productDescription">Description:</label>
+                    <input class="form-control" type="text" name="productDescription" id="productDescription" style="height: 20vw;" value="<?php echo $productDescription; ?>">
+                </div>
+                <br>
+                <div class="form-group mb-3">
+                    <label for="productPrice">Price:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">IDR</span>
+                        </div>
+                        <input class="form-control" type="number" name="productPrice" id="productPrice" value="<?php echo $productPrice; ?>">
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="productStock">Current stock:</label>
+                    <input class="form-control" type="number" name="productStock" id="productStock" value="<?php echo $productStock; ?>">
+                </div>
+                <br>
+                <input class="btn btn-primary rounded-pill" type="submit" value="Modify" style="width: 80vw;">
+                <a href="manageProducts.php" class="btn btn-light rounded-pill mt-2" style="width: 80vw">Cancel</a>
+            </div>
+        </form>
     </main>
-    <!-- <form action="../php/manageProduct.php" method="post" enctype='multipart/form-data'>
-        <label for="productImage"><img src="../images/blankShop.png" alt="Product Image label" width="10%" height="10%"></label>
-        <input type="file" name="productImage" id="productImage">
-        <br>
-        <label for="productName">Product name:</label>
-        <br>
-        <input type="text" name="productName" id="productName">
-        <br>
-        <label for="productDescription">Description:</label>
-        <br>
-        <input type="text" name="productDescription" id="productDescription">
-        <br>
-        <label for="productPrice">Price:</label>
-        <br>
-        IDR
-        <input type="number" name="productPrice" id="productPrice">
-        <br>
-        <input type="submit" value="Add">
-    </form> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
