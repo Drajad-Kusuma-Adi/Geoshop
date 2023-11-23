@@ -1,4 +1,100 @@
-**playground.md**
+$sql = "SELECT * FROM chats WHERE sender_id=? OR target_id=?";
+$stmt = $conn->prepare($sql);
+$value1 = $_SESSION["userId"];
+$stmt->bind_param("ss", $value1, $value1);
+$stmt->execute();
+$result = $stmt->get_result();
+$rows = $result->fetch_all(MYSQLI_ASSOC); // Fetch all rows as associative array
+
+if ($userId === $rows[0]['sender_id']) {
+    $sql = "SELECT DISTINCT target_id FROM chats WHERE sender_id = ?";
+    $stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+$targetIds = $result->fetch_all(MYSQLI_ASSOC); // Fetch all target_ids as associative array
+
+    foreach ($targetIds as $targetId) {
+        $rowIndex = array_search($targetId['target_id'], array_column($rows, 'target_id'));
+        if ($rowIndex !== false) {
+            unset($rows[$rowIndex]); // Remove the chat row from $rows variable
+        }
+    }
+
+} else if ($userId === $rows[0]['target_id']) {
+    $sql = "SELECT DISTINCT sender_id FROM chats WHERE target_id = ?";
+    $stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+$senderIds = $result->fetch_all(MYSQLI_ASSOC); // Fetch all sender_ids as associative array
+
+    foreach ($senderIds as $senderId) {
+        $rowIndex = array_search($senderId['sender_id'], array_column($rows, 'sender_id'));
+        if ($rowIndex !== false) {
+            unset($rows[$rowIndex]); // Remove the chat row from $rows variable
+        }
+    }
+
+}
+
+$rows = array_values($rows); // Re-index the array after removing elements
+$sql = "SELECT DISTINCT target_id FROM chats WHERE sender_id = ?";
+    $stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $targetIds = $result->fetch_all();
+    foreach ($targetIds as $targetId) {
+        foreach ($rows as $key => $row) {
+            if ($row['sender_id'] === $userId && $row['target_id'] === $targetId[0]) {
+                unset($rows[$key]);
+}
+}
+}
+} else if ($userId === $rows[0]['target_id']) {
+    $sql = "SELECT DISTINCT sender_id FROM chats WHERE target_id = ?";
+    $stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $senderIds = $result->fetch_all();
+    foreach ($senderIds as $senderId) {
+        foreach ($rows as $key => $row) {
+            if ($row['target_id'] === $userId && $row['sender_id'] === $senderId[0]) {
+                unset($rows[$key]);
+}
+}
+}
+}
+$sql = "SELECT DISTINCT target_id FROM chats WHERE sender_id = ?";
+    $stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $targetIds = $result->fetch_all();
+    foreach ($targetIds as $targetId) {
+        foreach ($rows as $key => $row) {
+            if ($row['sender_id'] === $userId && $row['target_id'] === $targetId[0]) {
+                unset($rows[$key]);
+}
+}
+}
+} else if ($userId === $rows[0]['target_id']) {
+    $sql = "SELECT DISTINCT sender_id FROM chats WHERE target_id = ?";
+    $stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $senderIds = $result->fetch_all();
+    foreach ($senderIds as $senderId) {
+        foreach ($rows as $key => $row) {
+            if ($row['target_id'] === $userId && $row['sender_id'] === $senderId[0]) {
+                unset($rows[$key]);
+}
+}
+}
+}
 
 **Basically my sandbox, this is where I write down algorithm process without actually using flowchart or boring UML diagram. Or maybe some random nonsense that most of you wouldn't want to understand.**
 

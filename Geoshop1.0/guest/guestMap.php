@@ -15,10 +15,7 @@
         }
 
         body {
-            background-image: url(../images/);
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
+            background-color: #ffffff;
             color: black;
         }
 
@@ -30,24 +27,9 @@
 </head>
 
 <body>
-    <header>
-        <div class="container-fluid p-1 d-inline-flex shadow" style="background-color: #F6F4EB;">
-            <div class="d-flex flex-row float-start" style="margin-left: 2%;">
-                <a href="../index.php">
-                    <img src="../images/GeoshopLogo.png" alt="Geoshop Logo" width="25%" height="100%">
-                    <b style="font-size: x-large;">Geoshop</b>
-                </a>
-            </div>
-            <div class="d-flex ms-auto align-items-center">
-                <a href="../loginPage.php" class="me-2">Login</a>
-                <a href="../loginPage.php">
-                    <img src="../images/blankUser.png" alt="Guest" class="rounded-circle" width="40%" height="40%">
-                </a>
-            </div>
-        </div>
-    </header>
+    <?php require_once "../header.php" ?>
     <main>
-        <div id="map" class="container-fluid" style="height: 100vh;">
+        <div id="map" class="container-fluid" style="height: 75vh;">
             <script>
                 let watchId;
                 let userPosition = {
@@ -88,7 +70,7 @@
                         iconSize: [20, 40]
                     });
 
-                    const apiUrl = 'http://localhost/Geoshop/Geoshop%201.0/php/getShopLocation.php';
+                    const apiUrl = 'http://localhost/Geoshop/Geoshop1.0/php/getShopLocation.php';
                     fetch(apiUrl)
                         .then(response => {
                             if (!response.ok) {
@@ -102,7 +84,7 @@
                                 let userId = document.getElementById('data').dataset.userId;
                                 let shopOwnerId = shop.owner_id.toString();
 
-                                if (distance <= 1) {
+                                if (distance <= 5) {
                                     if (shopOwnerId != userId) {
                                         let iconOptions = {
                                             title: shop.shop_name,
@@ -111,19 +93,31 @@
                                         }
                                         let shopId = shop.shop_id;
                                         let shopName = shop.shop_name;
-                                        let shopPhoto = shop.shop_photo;
+                                        let shopPhoto = shop.photo;
                                         let userLatitude = userPosition.latitude;
                                         let userLongitude = userPosition.longitude;
                                         let shopMarker = L.marker([shop.latitude, shop.longitude], iconOptions).addTo(map);
-                                        shopMarker.bindPopup(
-                                            `<div class="d-flex flex-row justify-content-center">
-                                                <img src="${shopPhoto}" alt="" width="24" height="24">
-                                                <div>
-                                                    <div>${shopName}</div>
-                                                    <div><a href="../php/getShopData.php?shopId=${shopId}&userLatitude=${userLatitude}&userLongitude=${userLongitude}">Click to view</a></div>
-                                                </div>
-                                            </div>`
-                                        );
+                                        if (shopPhoto !== null) {
+                                            shopMarker.bindPopup(
+                                                `<div class="d-flex flex-row justify-content-center">
+                                                    <img src="../profilePicture/${shopPhoto}" alt="" width="24" height="24" class="me-2">
+                                                    <div>
+                                                        <div>${shopName}</div>
+                                                        <div><a href="guestNotAllowed.php">Click to view</a></div>
+                                                    </div>
+                                                </div>`
+                                            );
+                                        } else {
+                                            shopMarker.bindPopup(
+                                                `<div class="d-flex flex-row justify-content-center">
+                                                    <img src="../images/blankShop.png" alt="" width="24" height="24" class="me-2">
+                                                    <div>
+                                                        <div>${shopName}</div>
+                                                        <div><a href="guestNotAllowed.php">Click to view</a></div>
+                                                    </div>
+                                                </div>`
+                                            );
+                                        }
                                         shopMarker.on('click', function(e) {
                                             shopMarker.openPopup();
                                         });
@@ -158,9 +152,6 @@
                         let theta = longitude1 - longitude2;
                         let radiusTheta = Math.PI * theta / 180;
                         let distance = Math.sin(radiusLatitude1) * Math.sin(radiusLatitude2) + Math.cos(radiusLatitude1) * Math.cos(radiusLatitude2) * Math.cos(radiusTheta);
-                        if (distance > 1) {
-                            distance = 1;
-                        }
                         distance = Math.acos(distance);
                         distance = distance * 180 / Math.PI;
                         distance = distance * 60 * 1.1515 * 1.609344;
@@ -168,9 +159,9 @@
                     }
                 }
             </script>
-
         </div>
     </main>
+    <?php require_once "../footer.php" ?>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

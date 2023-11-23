@@ -17,7 +17,7 @@ session_start();
         }
 
         body {
-            background-color: #F1F1F1;
+            background-color: #FFFFFF;
             color: black;
         }
 
@@ -29,58 +29,7 @@ session_start();
 </head>
 
 <body>
-    <header>
-        <div class="container-fluid p-1 d-inline-flex border-bottom border-4" style="background-color: #F1F1F1;">
-            <div class="float-start" style="margin-left: 2%;">
-                <a href="userMap.php">
-                    <img src="../images/GeoshopLogo.png" alt="Geoshop Logo" width="25%" height="100%">
-                    <b style="font-size: x-large;">Geoshop</b>
-                </a>
-            </div>
-            <div class="d-inline-flex ms-auto align-items-center" style="justify-content: flex-end; margin-right: 2%;">
-                <div class="dropdown">
-                    <button class="btn bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path d="M4 6H20M4 12H20M4 18H20" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </g>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu">
-                        <li><a href="userMap.php" class="dropdown-item">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <g id="Navigation / Map_Pin">
-                                            <g id="Vector">
-                                                <path d="M5 9.92285C5 14.7747 9.24448 18.7869 11.1232 20.3252C11.3921 20.5454 11.5281 20.6568 11.7287 20.7132C11.8849 20.7572 12.1148 20.7572 12.271 20.7132C12.472 20.6567 12.6071 20.5463 12.877 20.3254C14.7557 18.7871 18.9999 14.7751 18.9999 9.9233C18.9999 8.08718 18.2625 6.32605 16.9497 5.02772C15.637 3.72939 13.8566 3 12.0001 3C10.1436 3 8.36301 3.7295 7.05025 5.02783C5.7375 6.32616 5 8.08674 5 9.92285Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path d="M10 9C10 10.1046 10.8954 11 12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7C10.8954 7 10 7.89543 10 9Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
-                                Map
-                            </a></li>
-                        <li><a href="../php/logout.php" class="dropdown-item">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path d="M21 12L13 12" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </g>
-                                </svg>
-                                Logout
-                            </a></li>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php require_once "../header.php"; ?>
     <main>
         <?php
         require_once "../php/config.php";
@@ -101,7 +50,19 @@ session_start();
         $productStock = $row["stock"];
         ?>
         <div class="container-fluid d-flex flex-md-row flex-column mt-2">
-            <div class="d-flex flex-column p-4 col-md-8 col-12" style="background-color: #F6F4EB;">
+            <div class="d-flex flex-column p-4 col-md-8 col-12 me-1 mb-1" style="background-color: #F1F1F1;">
+                <div class="text-start mb-4">
+                    <a href="shopView.php?shopId=<?php echo $_SESSION['shopId'] ?>&userLatitude=<?php echo $_SESSION['userLatitude'] ?>&userLongitude=<?php echo $_SESSION['userLongitude'] ?>" class="text-decoration-none">
+                        <svg width="36px" height="36px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill="#000000" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path>
+                                <path fill="#000000" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
                 <div class="d-flex flex-column align-items-start justify-content-center">
                     <img src="<?php if ($productPhoto != null) {
                                     echo $productPhoto;
@@ -118,6 +79,7 @@ session_start();
                         <input type="text" name="itemName" id="itemName" hidden value="<?php echo $productName ?>">
                         <input type="text" name="itemPrice" id="itemPrice" hidden value="<?php echo $productPrice ?>">
                         <input type="text" name="itemPhoto" id="itemPhoto" hidden value="<?php echo $productPhoto ?>">
+                        <input type="text" name="itemVendor" id="itemVendor" hidden value="<?php echo $_SESSION['shopName'] ?>">
                         <div class="d-flex flex-column align-items-center">
                             <input type="submit" name="addToCart" id="addToCart" value="Add to cart" class="btn btn-primary fs-2 fw-bold" <?php if ($productStock == 0) {
                                                                                                                                                 echo ' disabled';
@@ -127,15 +89,21 @@ session_start();
                     </form>
                 </div>
             </div>
-            <div class="d-flex flex-column p-4 col-md-4 col-12 mb-2" style="background: #F6F4EB;">
+            <div class="d-flex flex-column p-4 col-md-4 col-12 mb-2 ms-1 mt-1" style="background: #F1F1F1">
                 <div class="d-flex flex-column">
-                    <form action="../php/postComment.php" method="post">
-                        <div class="d-flex flex-row flex-nowrap">
-                            <img src="../images/blankUser.png" alt="Profile Picture" width="48" height="48" class="me-2">
-                            <input type="text" name="typeCommentBox" id="typeCommentBox" placeholder="Enter your comment" class="me-2 p-2 rounded">
-                            <div class="btn btn-secondary rounded-circle">
+                    <div class="d-flex flex-row flex-nowrap">
+                        <form action="../php/postComment.php?productId=<?php echo $_GET['productId']; ?>" method="post">
+                            <div class="d-flex flex-row align-items-center">
+                                <img src="<?php
+                                            if (isset($_SESSION['profilePicture']) && file_exists("../profilePicture/" . $_SESSION['profilePicture'])) {
+                                                echo "../profilePicture/" . $_SESSION['profilePicture'];
+                                            } else {
+                                                echo "../profilePicture/blankUser.jpg";
+                                            } ?>" alt="Profile Picture" width="48" height="48" class="mx-2 rounded-circle">
+                                <textarea name="typeCommentBox" id="typeCommentBox" placeholder="Enter your comment" class="mx-2 p-2 rounded" style="resize: none;"></textarea>
+                            </div>
+                            <div class="btn btn-secondary rounded-pill w-100 mx-2 my-2">
                                 <label style="cursor: pointer;">
-                                    <input type="submit" value="" style="display: none;">
                                     <svg fill="#ffffff" width="24px" height="24px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -144,14 +112,173 @@ session_start();
                                             <path d="M0 14.016l9.216 6.912 18.784-16.928-14.592 20.064 10.592 7.936 8-32zM8 32l6.016-4-6.016-4v8z"></path>
                                         </g>
                                     </svg>
+                                    <input type="submit" value="" style="display: none;">
                                 </label>
                             </div>
+                        </form>
+                    </div>
+                    <div class="d-flex flex-row">
+                        <div class="m-2">
+                            <form action="../php/sendLike.php?userId=<?php echo $_SESSION['userId'] ?>&productId=<?php echo $_GET['productId']; ?>" method="post">
+                                <label style="cursor: pointer;">
+                                    <svg width="36px" height="36px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M15.9 4.5C15.9 3 14.418 2 13.26 2c-.806 0-.869.612-.993 1.82-.055.53-.121 1.174-.267 1.93-.386 2.002-1.72 4.56-2.996 5.325V17C9 19.25 9.75 20 13 20h3.773c2.176 0 2.703-1.433 2.899-1.964l.013-.036c.114-.306.358-.547.638-.82.31-.306.664-.653.927-1.18.311-.623.27-1.177.233-1.67-.023-.299-.044-.575.017-.83.064-.27.146-.475.225-.671.143-.356.275-.686.275-1.329 0-1.5-.748-2.498-2.315-2.498H15.5S15.9 6 15.9 4.5zM5.5 10A1.5 1.5 0 0 0 4 11.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 5.5 10z" fill="#<?php
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        $sql = "SELECT * FROM product_likes WHERE user_id=? AND product_id=?";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        $stmt = $conn->prepare($sql);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        $stmt->bind_param("ss", $userId, $productId);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        $stmt->execute();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        $result = $stmt->get_result();
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        if ($result->num_rows > 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            echo "0000FF";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } else if ($result->num_rows == 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            echo "000000";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ?>"></path>
+                                        </g>
+                                    </svg>
+                                    <input type="submit" value="" style="display: none;">
+                                </label>
+                                <span><?php echo $result->num_rows; ?></span>
+                            </form>
                         </div>
-                    </form>
+                        <div class="m-2">
+                            <form action="../php/sendDislike.php?userId=<?php echo $_SESSION['userId'] ?>&productId=<?php echo $_GET['productId']; ?>" method="post">
+                                <label style="cursor: pointer;">
+                                    <svg width="36px" height="36px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0)matrix(1, 0, 0, 1, 0, 0)">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.1 20.5c0 1.5 1.482 2.5 2.64 2.5.806 0 .869-.613.993-1.82.055-.53.121-1.174.267-1.93.386-2.002 1.72-4.56 2.996-5.325V8C15 5.75 14.25 5 11 5H7.227C5.051 5 4.524 6.432 4.328 6.964A15.85 15.85 0 0 1 4.315 7c-.114.306-.358.546-.638.82-.31.306-.664.653-.927 1.18-.311.623-.27 1.177-.233 1.67.023.299.044.575-.017.83-.064.27-.146.475-.225.671-.143.356-.275.686-.275 1.329 0 1.5.748 2.498 2.315 2.498H8.5S8.1 19 8.1 20.5zM18.5 15a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-3 0v7a1.5 1.5 0 0 0 1.5 1.5z" fill="#<?php
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $sql = "SELECT * FROM product_dislikes WHERE user_id=? AND product_id=?";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $stmt = $conn->prepare($sql);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $stmt->bind_param("ss", $userId, $productId);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $stmt->execute();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $result = $stmt->get_result();
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    if ($result->num_rows > 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        echo "0000FF";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } else if ($result->num_rows == 0) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        echo "000000";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ?>"></path>
+                                        </g>
+                                    </svg>
+                                    <input type="submit" value="" style="display: none;">
+                                </label>
+                                <span><?php echo $result->num_rows; ?></span>
+                            </form>
+                        </div>
+                    </div>
                     <hr>
+                    <div class="d-flex flex-column" style="overflow-y: scroll;">
+                        <?php
+                        // Get comments data from database
+                        $sql = "SELECT * FROM product_comments WHERE product_id=? AND user_id=?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("ss", $value1, $value2);
+                        $value1 = $_GET['productId'];
+                        $value2 = $_SESSION['userId'];
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $row = $result->fetch_all(MYSQLI_ASSOC);
+
+                        // Initialize user comments
+                        $userComments = array();
+
+                        // Filter all comments by current user
+                        foreach ($row as $comment) {
+                            if ($comment['user_id'] == $_SESSION['userId']) {
+                                $userComments[] = $comment;
+                            }
+                        }
+
+                        // Output comments by current user
+                        foreach ($userComments as $comment) {
+                            $sql = "SELECT * FROM users WHERE user_id=?";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("s", $comment["user_id"]);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            $row = $result->fetch_assoc();
+
+                            $comment["username"] = $row["username"];
+                            $comment["photo"] = $row["photo"];
+                        ?>
+                            <div class="d-flex flex-row flex-nowrap m-2">
+                                <div class="d-flex flex-row align-items-center">
+                                    <img src="<?php
+                                                if (isset($comment["photo"]) && file_exists("../profilePicture/" . $comment["photo"])) {
+                                                    echo "../profilePicture/" . $comment["photo"];
+                                                } else {
+                                                    echo "../profilePicture/blankUser.jpg";
+                                                } ?>" alt="Profile Picture" width="48" height="48" class="mx-2 rounded-circle">
+                                    <div class="mx-2 p-2 rounded" readonly style="resize: none;">
+                                        <span class="fw-bold"><?php echo $comment["username"]; ?> says:</span>
+                                        <?php echo $comment["content"]; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+
+                        // Get comments data from database
+                        $sql = "SELECT * FROM product_comments WHERE product_id=?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("s", $value1);
+                        $value1 = $_GET['productId'];
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $row = $result->fetch_all(MYSQLI_ASSOC);
+
+                        // Initialize other user comments
+                        $otherUserComments = array();
+
+                        // Filter all comments by other users
+                        foreach ($row as $comment) {
+                            if ($comment['user_id'] !== $_SESSION['userId']) {
+                                $otherUserComments[] = $comment;
+                            }
+                        }
+
+                        // Output comments by other users
+                        foreach ($otherUserComments as $comment) {
+                            $sql = "SELECT * FROM users WHERE user_id=?";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("s", $comment["user_id"]);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            $row = $result->fetch_assoc();
+
+                            $comment["username"] = $row["username"];
+                            $comment["photo"] = $row["photo"];
+                        ?>
+                            <div class="d-flex flex-row flex-nowrap m-2">
+                                <div class="d-flex flex-row align-items-center">
+                                    <img src="<?php
+                                                if (isset($comment["photo"]) && file_exists("../profilePicture/" . $comment["photo"])) {
+                                                    echo "../profilePicture/" . $comment["photo"];
+                                                } else {
+                                                    echo "../profilePicture/blankUser.jpg";
+                                                } ?>" alt="Profile Picture" width="48" height="48" class="mx-2 rounded-circle">
+                                    <div class="mx-2 p-2 rounded" readonly style="resize: none;">
+                                        <span class="fw-bold"><?php echo $comment["username"]; ?> says:</span>
+                                        <?php echo $comment["content"]; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+
+                        $stmt->close();
+                        $conn->close();
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>
+        <?php require_once "../footer.php"; ?>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

@@ -14,7 +14,10 @@
         }
 
         body {
-            background-color: #F1F1F1;
+            background-image: url("images/indexBackground.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
             color: black;
         }
 
@@ -47,7 +50,7 @@
                                     Register email
                                 </label>
                                 <br>
-                                <input type="text" name="registerEmail" id="registerEmail" placeholder="Your active email here" class="p-2 rounded-4 w-75 mb-3" required>
+                                <input type="email" name="registerEmail" id="registerEmail" placeholder="Your active email here" class="p-2 rounded-4 w-75 mb-3" required>
                             </div>
                             <div>
                                 <label for="registerUsername">

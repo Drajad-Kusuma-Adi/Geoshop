@@ -3,10 +3,10 @@ session_start();
 require_once "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $editProfilePicture = $_FILES["editProfilePicture"];
+    $editProfilePictureShop = $_FILES["editProfilePictureShop"];
 
     $target_dir = "../profilePicture/";
-    $nameProfilePicture = basename($_FILES["editProfilePicture"]["name"]);
+    $nameProfilePicture = basename($_FILES["editProfilePictureShop"]["name"]);
     $randomFileName = uniqid() . "_" . $nameProfilePicture;
     $target_file = $target_dir . $randomFileName;
     $uploadOk = 1;
@@ -24,20 +24,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../user/userProfile.php?uploadError=1");
         exit();
     } else {
-        $sql = "SELECT * FROM users WHERE user_id=?";
+        $sql = "SELECT * FROM shops WHERE owner_id=?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $value1);
         $value1 = $_SESSION["userId"];
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            $profile = $result->fetch_assoc();
-            if (file_exists("../profilePicture/" . $profile["photo"])) {
-                unlink("../profilePicture/" . $profile["photo"]);
+            $shopProfile = $result->fetch_assoc();
+            if (file_exists("../profilePicture/" . $shopProfile["photo"])) {
+                unlink("../profilePicture/" . $shopProfile["photo"]);
             }
         }
-        if (move_uploaded_file($_FILES["editProfilePicture"]["tmp_name"], $target_file)) {
-            $sql = "UPDATE users SET photo=? WHERE user_id=?";
+        if (move_uploaded_file($_FILES["editProfilePictureShop"]["tmp_name"], $target_file)) {
+            $sql = "UPDATE shops SET photo=? WHERE owner_id=?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ss", $value1, $value2);
             $value1 = $randomFileName;
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die("Something went wrong, please try again");
             }
             $stmt->close();
-            $_SESSION["profilePicture"] = $randomFileName;
+            $_SESSION["assetPhoto"] = $randomFileName;
         } else {
             header("Location: ../user/userProfile.php?uploadError=1");
         }

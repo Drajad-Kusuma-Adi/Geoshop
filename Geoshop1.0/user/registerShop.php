@@ -15,7 +15,10 @@
         }
 
         body {
-            background-color: #F1F1F1;
+            background-image: url("../images/indexBackground.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
             color: black;
         }
 
