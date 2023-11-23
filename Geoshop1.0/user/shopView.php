@@ -1,5 +1,36 @@
 <?php
 session_start();
+require_once "../php/config.php";
+$shopId = $_GET['shopId'];
+
+$sql = "SELECT * FROM shops WHERE shop_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $shopId);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$shopId = $row['shop_id'];
+$shopName = $row['shop_name'];
+$photo = $row['photo'];
+$ownerId = $row['owner_id'];
+$shopLatitude = $row['latitude'];
+$shopLongitude = $row['longitude'];
+
+$_SESSION['shopId'] = $shopId;
+$_SESSION['shopName'] = $shopName;
+$_SESSION['shopPhoto'] = $photo;
+$_SESSION['ownerId'] = $ownerId;
+$_SESSION['shopLatitude'] = $shopLatitude;
+$_SESSION['shopLongitude'] = $shopLongitude;
+
+$_SESSION['userLatitude'] = $_GET['userLatitude'];
+$_SESSION['userLongitude'] = $_GET['userLongitude'];
+
+if (!isset($shopName, $ownerId, $shopLatitude, $shopLongitude)) {
+    error_log('One or more session variables are not set.');
+    echo '<a href="' . $_SERVER["HTTP_REFERER"] . '">Go back</a>';
+    die("Error, session variables not set. If data is printed out in this page, please contact an admin to get it fixed.");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +48,7 @@ session_start();
         }
 
         body {
-            background-color: #F1F1F1;
+            background-color: #FFFFFF;
             color: black;
         }
 
@@ -29,68 +60,22 @@ session_start();
 </head>
 
 <body>
-    <header>
-        <div class="container-fluid p-1 d-inline-flex border-bottom border-4" style="background-color: #F1F1F1;">
-            <div class="float-start" style="margin-left: 2%;">
-                <a href="userMap.php">
-                    <img src="../images/GeoshopLogo.png" alt="Geoshop Logo" width="25%" height="100%">
-                    <b style="font-size: x-large;">Geoshop</b>
-                </a>
-            </div>
-            <div class="d-inline-flex ms-auto align-items-center" style="justify-content: flex-end; margin-right: 2%;">
-                <div class="dropdown">
-                    <button class="btn bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path d="M4 6H20M4 12H20M4 18H20" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </g>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu">
-                        <li><a href="userMap.php" class="dropdown-item">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <g id="Navigation / Map_Pin">
-                                            <g id="Vector">
-                                                <path d="M5 9.92285C5 14.7747 9.24448 18.7869 11.1232 20.3252C11.3921 20.5454 11.5281 20.6568 11.7287 20.7132C11.8849 20.7572 12.1148 20.7572 12.271 20.7132C12.472 20.6567 12.6071 20.5463 12.877 20.3254C14.7557 18.7871 18.9999 14.7751 18.9999 9.9233C18.9999 8.08718 18.2625 6.32605 16.9497 5.02772C15.637 3.72939 13.8566 3 12.0001 3C10.1436 3 8.36301 3.7295 7.05025 5.02783C5.7375 6.32616 5 8.08674 5 9.92285Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path d="M10 9C10 10.1046 10.8954 11 12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7C10.8954 7 10 7.89543 10 9Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
-                                Map
-                            </a></li>
-                        <li><a href="../php/logout.php" class="dropdown-item">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path d="M21 12L13 12" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </g>
-                                </svg>
-                                Logout
-                            </a></li>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php require_once "../header.php" ?>
     <main>
         <div class="container-fluid">
-            <div class="d-flex flex-column mt-4" style="background-color: #F6F4EB;">
+            <div class="d-flex flex-column mt-4 rounded-3" style="background-color: #F1F1F1;">
                 <div class="d-flex flex-column justify-content-between mx-3 mt-3 mb-0 p-3" style="border: 1px solid #000000; border-radius: 10px;">
                     <div class="d-flex flex-row">
-                        <img src="../images/blankShop.png" alt="Shop Image" class="rounded-circle me-2" width="80" height="80">
+                        <img src="<?php
+                                    if (file_exists("../profilePicture/" . $_SESSION["shopPhoto"])) {
+                                        echo "../profilePicture/" . $_SESSION["shopPhoto"];
+                                    } else {
+                                        echo "../profilePicture/blankUser.jpg";
+                                    }
+                                    ?>" alt="Shop Image" class="rounded-circle me-2" width="80" height="80">
                         <div class="d-flex flex-column">
                             <div class="fs-4 fw-bold"><?php echo $_SESSION['shopName'] ?></div>
                             <div class="fs-4">Owner: <?php
-                                                        require_once "../php/config.php";
                                                         $sql = "SELECT * FROM users WHERE user_id = ?";
                                                         $stmt = $conn->prepare($sql);
                                                         $stmt->bind_param("s", $value1);
@@ -238,29 +223,33 @@ session_start();
                         $productName = $row["product_name"];
                         $productPrice = $row["price"];
                         $productPhoto = $row["photo"];
-                        $productStock = $row["stock"];
-                        $productDescription = $row["description"];
-
-                        echo '<div class="d-flex flex-column justify-content-center m-3 w-25">';
-                        echo '<div class="d-flex flex-column m-2 rounded-3" style="background-color: white;">';
-                        echo '<img src="' . ($productPhoto != null ? $productPhoto : "../images/blankProduct.png") . '" alt="Product Image" width="100" height="100" class="align-self-center m-4">';
-                        echo '<div class="d-flex flex-column justify-content-between m-4" style="height: 100%;">';
-                        echo '<div class="text-center">';
-                        echo '<p class="fs-2 fw-bold">' . $productName . '</p>';
-                        echo '<p class="fs-4"> IDR. ' . number_format($productPrice) . '</p>';
-                        echo '</div>';
-                        echo '</div>';
-                        echo '<a href="productView.php?productId=' . $productId . '" class="bg-primary text-center fs-3 fw-bold px-4 py-2 rounded-3" style="color: white; width: 100%;">Add to cart</a>';
-                        echo '</div>';
-                        echo '</div>';
+                    ?>
+                        <div class="col-sm-6 col-md-4 col-lg-3 m-3">
+                            <div class="card m-2 rounded-3 bg-white">
+                                <img src="<?php echo ($productPhoto != null ? $productPhoto : '../images/blankProduct.png'); ?>" alt="Product Image" class="card-img-top mb-4 rounded-3" style="width: 100%; height: 250px;">
+                                <div class="card-body d-flex flex-column justify-content-between m-4" style="height: 100%;">
+                                    <div class="text-center">
+                                        <p class="fs-2 fw-bold"><?php echo $productName; ?></p>
+                                        <p class="fs-4">IDR. <?php echo number_format($productPrice); ?></p>
+                                    </div>
+                                </div>
+                                <a href="productView.php?productId=<?php echo $productId; ?>" class="btn btn-primary text-center fs-3 fw-bold px-4 py-2 rounded-3" style="width: 100%;">View details</a>
+                            </div>
+                        </div>
+                    <?php
                     }
                     ?>
                 </div>
             </div>
         </div>
+        <?php require_once "../footer.php" ?>
     </main>
     <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
+    <?php
+    $stmt->close();
+    $conn->close();
+    ?>
 </body>
 
 </html>

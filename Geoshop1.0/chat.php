@@ -86,75 +86,75 @@ require_once "php/config.php";
             <div class="col-12 col-md-4 text-start p-3 shadow border-bottom border-2" style="background-color: #F1F1F1; height: 100vh;">
                 <div class="d-flex flex-column">
                     <?php
-                    require_once "php/config.php";
-                    $sql = "SELECT * FROM chats WHERE user_id=? OR shop_id=? ORDER BY datetime DESC";
+                    $sql = "SELECT * FROM chats WHERE sender_id=? OR target_id=?";
                     $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("ss", $value1, $value1);
                     $value1 = $_SESSION["userId"];
+                    $stmt->bind_param("ss", $value1, $value1);
                     $stmt->execute();
                     $result = $stmt->get_result();
+                    $rows = $result->fetch_all(MYSQLI_ASSOC);
 
-                    $displayedChats = array();
+                    if ($_SESSION["userId"] === $rows[0]['sender_id']) {
+                        $sql = "SELECT * FROM chats WHERE sender_id = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("s", $_SESSION["userId"]);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $rows = $result->fetch_all(MYSQLI_ASSOC);
 
-                    $isUser = $_SESSION["userId"];
+                        $latestChatIndex = null;
+                        $latestChatDatetime = null;
 
-                    while ($row = $result->fetch_assoc()) {
-                        $chatId = $row["chat_id"];
-                        $userId = $row["user_id"];
-                        $shopId = $row["shop_id"];
-                        $message = $row["content"];
-                        $datetime = $row["datetime"];
-
-                        if (in_array($chatId, $displayedChats)) {
-                            $targetId = $isUser == $userId ? $shopId : $userId;
+                        foreach ($rows as $index => $row) {
+                            if ($row['target_id'] === $row['target_id']) {
+                                if ($latestChatDatetime === null || $row['datetime'] > $latestChatDatetime) {
+                                    $latestChatDatetime = $row['datetime'];
+                                    $latestChatIndex = $index;
+                                }
+                            }
                         }
 
-                        if (in_array($targetId, $displayedChats)) {
-                            continue;
+                        if ($latestChatIndex !== null) {
+                            foreach ($rows as $index => $row) {
+                                if ($row['target_id'] === $row['target_id'] && $index !== $latestChatIndex) {
+                                    unset($rows[$index]);
+                                }
+                            }
+                        }
+                    } else if ($_SESSION["userId"] === $rows[0]['target_id']) {
+                        $sql = "SELECT * FROM chats WHERE target_id = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("s", $_SESSION["userId"]);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $rows = $result->fetch_all(MYSQLI_ASSOC);
+
+                        $latestChatIndex = null;
+                        $latestChatDatetime = null;
+
+                        foreach ($rows as $index => $row) {
+                            if ($row['sender_id'] === $row['sender_id']) {
+                                if ($latestChatDatetime === null || $row['datetime'] > $latestChatDatetime) {
+                                    $latestChatDatetime = $row['datetime'];
+                                    $latestChatIndex = $index;
+                                }
+                            }
                         }
 
-                        if ($isUser == $userId) {
-                            $sql = "SELECT * FROM shops WHERE shop_id=?";
-                            $stmt = $conn->prepare($sql);
-                            $value1 = $shopId;
-                            $stmt->bind_param("s", $value1);
-                            $stmt->execute();
-                            $resultShop = $stmt->get_result();
-                            $row = $resultShop->fetch_assoc();
-
-                            displayChat($row["photo"], $row["username"], $message);
-                        } else if ($isUser == $shopId) {
-                            $sql = "SELECT * FROM users WHERE user_id=?";
-                            $stmt = $conn->prepare($sql);
-                            $stmt->bind_param("s", $value1);
-                            $value1 = $userId;
-                            $stmt->execute();
-                            $resultUser = $stmt->get_result();
-                            $row = $resultUser->fetch_assoc();
-
-                            displayChat($row["photo"], $row["username"], $message);
+                        if ($latestChatIndex !== null) {
+                            foreach ($rows as $index => $row) {
+                                if ($row['sender_id'] === $row['sender_id'] && $index !== $latestChatIndex) {
+                                    unset($rows[$index]);
+                                }
+                            }
                         }
-
-                        $displayedChats[] = $targetId;
                     }
 
-                    function displayChat($photo, $name, $message)
-                    {
-                        $shortMessage = (strlen($message) > 15 ? substr($message, 0, 15) . "..." : $message);
+                    $rows = array_values($rows);
                     ?>
-                        <div class="d-flex flex-row chatTab">
-                            <img src="user/profilePicture/<?php echo $photo ?>" alt="Profile picture" width="20%" height="20%" class="rounded-circle">
-                            <div class="d-flex flex-column ms-4">
-                                <p class="fs-4 fw-bold"><?php echo $name ?></p>
-                                <p><?php echo $shortMessage ?></p>
-                            </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                    TODO: Something's wrong, I can feel it
                 </div>
             </div>
+        </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

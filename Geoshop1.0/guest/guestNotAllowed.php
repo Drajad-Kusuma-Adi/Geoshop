@@ -31,7 +31,7 @@
 <body>
     <main>
         <div class="container d-flex flex-column justify-content-center align-items-center vh-100">
-            <img src="../images/GeoshopLogo.png" alt="Geoshop Logo" width="100%" height="auto" class="text-center">
+            <img src="../images/GeoshopLogo.png" alt="Geoshop Logo" width="25%" height="auto" class="text-center">
             <p class="fs-1 fw-bold text-center">Login to continue using our services</p>
             <a href="../loginPage.php" class="btn btn-primary btn-lg px-5 text-light text-center">Login</a>
             <p class="text-center">Don't have an account? <a href="../registerPage.php" style="color: blue;">Register</a> </p>

@@ -8,8 +8,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <style>
         * {
             padding: 0;
@@ -30,58 +30,7 @@ session_start();
 </head>
 
 <body>
-    <header>
-        <div class="container-fluid p-1 d-inline-flex border-bottom border-4" style="background-color: #F1F1F1;">
-            <div class="float-start" style="margin-left: 2%;">
-                <a href="userMap.php">
-                    <img src="../images/GeoshopLogo.png" alt="Geoshop Logo" width="25%" height="100%">
-                    <b style="font-size: x-large;">Geoshop</b>
-                </a>
-            </div>
-            <div class="d-inline-flex ms-auto align-items-center" style="justify-content: flex-end; margin-right: 2%;">
-                <div class="dropdown">
-                    <button class="btn bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path d="M4 6H20M4 12H20M4 18H20" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </g>
-                        </svg>
-                    </button>
-                    <div class="dropdown-menu">
-                        <li><a href="userMap.php" class="dropdown-item">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <g id="Navigation / Map_Pin">
-                                            <g id="Vector">
-                                                <path d="M5 9.92285C5 14.7747 9.24448 18.7869 11.1232 20.3252C11.3921 20.5454 11.5281 20.6568 11.7287 20.7132C11.8849 20.7572 12.1148 20.7572 12.271 20.7132C12.472 20.6567 12.6071 20.5463 12.877 20.3254C14.7557 18.7871 18.9999 14.7751 18.9999 9.9233C18.9999 8.08718 18.2625 6.32605 16.9497 5.02772C15.637 3.72939 13.8566 3 12.0001 3C10.1436 3 8.36301 3.7295 7.05025 5.02783C5.7375 6.32616 5 8.08674 5 9.92285Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path d="M10 9C10 10.1046 10.8954 11 12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7C10.8954 7 10 7.89543 10 9Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
-                                Map
-                            </a></li>
-                        <li><a href="../php/logout.php" class="dropdown-item">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path d="M21 12L13 12" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        <path d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" stroke="#323232" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </g>
-                                </svg>
-                                Logout
-                            </a></li>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php require_once "../header.php" ?>
     <main>
         <div class="container-fluid m-2">
             <div class="container">
@@ -89,11 +38,11 @@ session_start();
                     <p class="fs-2 fw-bold">Profile</p>
                     <div class="col rounded border p-2" style="background-color: #F6F4EB;">
                         <div class="d-flex justify-content-center w-100">
-                            <img src="<?php if (isset($_SESSION['profilePicture'])) {
+                            <img src="<?php if (isset($_SESSION['profilePicture']) && file_exists("../profilePicture/" . $_SESSION["profilePicture"])) {
                                             echo "../profilePicture/" . $_SESSION['profilePicture'];
                                         } else {
                                             echo "../images/blankUser.png";
-                                        } ?>" class="rounded-circle img-fluid m-4" alt="Profile Picture" id="profilePicture" width="25%" height="25%">
+                                        } ?>" class="rounded-circle img-fluid m-4" alt="Profile Picture" id="profilePicture" style="width: 100px; height: 100px;">
                         </div>
                         <div class="d-flex justify-content-start flex-column w-100">
                             <p id="infoIcon" class="fs-4 fw-bold"><svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
@@ -116,8 +65,25 @@ session_start();
                             <p id="email"><span class="fs-4 fw-medium">Email: </span><?php echo $_SESSION['email'] ?></p>
                         </div>
                         <div class="d-flex justify-content-end" id="editProfile">
-                            <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#editProfilePictureModal">Edit picture</button>
+                            <form id="uploadForm" action="../php/editProfilePicture.php" method="POST" enctype="multipart/form-data">
+                                <button type="button" id="uploadButton" class="btn btn-secondary m-1">
+                                    Edit picture
+                                </button>
+                                <input type="file" name="editProfilePicture" id="editProfilePicture" style="display:none;">
+                            </form>
+                            <script>
+                                const uploadButton = document.querySelector('#uploadButton');
+                                const uploadInput = document.querySelector('#editProfilePicture');
+                                uploadButton.addEventListener('click', () => {
+                                    uploadInput.click();
+                                });
+                                uploadInput.addEventListener('change', () => {
+                                    document.querySelector('#uploadForm').submit();
+                                });
+                            </script>
                             <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal">Edit profile</button>
+                            <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#deleteProfilePictureModal">Delete photo</button>
+                            <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">Delete account</button>
                         </div>
                     </div>
                 </div>
@@ -148,11 +114,11 @@ session_start();
                                 $conn->close();
                             }
                             ?>
-                            <img src="<?php if (isset($_SESSION['shopProfilePicture'])) {
-                                            echo "../profilePicture/" . $_SESSION['shopProfilePicture'];
+                            <img src="<?php if (isset($_SESSION['assetPhoto']) && file_exists("../profilePicture/" . $_SESSION["assetPhoto"])) {
+                                            echo "../profilePicture/" . $_SESSION['assetPhoto'];
                                         } else {
                                             echo "../images/blankShop.png";
-                                        } ?>" alt="Shop Profile Picture" id="shopProfilePicture" width="25%" height="25%">
+                                        } ?>" class="rounded-circle img-fluid m-4" alt="Shop Profile Picture" id="shopProfilePicture" style="width: 100px; height: 100px;">
                         </div>
                         <div class="d-flex justify-content-start flex-column w-100">
                             <?php if ($_SESSION["isShop"] == 1) : ?>
@@ -174,27 +140,89 @@ session_start();
                                             </g>
                                         </svg> Info</p>
                                     <p id="shopName"><span class="fs-4 fw-medium">Shop Name: </span><?php echo $_SESSION["shopName"]; ?></p>
-                                    <p id="shopLatitude"><span class="fs-4 fw-medium">Shop Latitude: </span><?php echo $_SESSION["shopLatitude"]; ?></p>
-                                    <p id="shopLongitude"><span class="fs-4 fw-medium">Shop Longitude: </span><?php echo $_SESSION["shopLongitude"]; ?></p>
+                                    <p id="shopLocation"><span class="fs-4 fw-medium">Shop Location: </span></p>
+                                    <div id="map" style="width: 200px; height: 200px;">
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function() {
+                                                var shopLatitude = <?php echo $_SESSION["assetLatitude"]; ?>;
+                                                var shopLongitude = <?php echo $_SESSION["assetLongitude"]; ?>;
+
+                                                const map = L.map("map", {
+                                                    zoomControl: false
+                                                }).setView([shopLatitude, shopLongitude], 20);
+                                                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+                                                L.marker([shopLatitude, shopLongitude]).addTo(map);
+
+                                                map.dragging.disable();
+                                                map.touchZoom.disable();
+                                                map.doubleClickZoom.disable();
+                                                map.scrollWheelZoom.disable();
+                                                map.boxZoom.disable();
+                                                map.keyboard.disable();
+                                            });
+                                        </script>
+                                    </div>
                                 </div>
-                                <div class="d-flex justify-content-end" id="editProfile">
-                                    <a href="../shop/manageProducts.php" class="btn btn-secondary m-1">Manage products</a>
-                                    <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#editShopPhoto">Edit picture</button>
-                                    <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#editShop">Edit shop</button>
+                                <div class="d-flex justify-content-end" id="editProfileShop">
+                                    <div class="dropdown dropup m-1">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Manage shop
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <a href="manageProducts.php" class="dropdown-item">Manage products</a>
+                                            </li>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown dropup m-1">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Manage shop info
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <form id="uploadFormShop" action="../php/editProfilePictureShop.php" method="POST" enctype="multipart/form-data">
+                                                    <button type="button" id="uploadButtonShop" class="dropdown-item">
+                                                        Edit picture
+                                                    </button>
+                                                    <input type="file" name="editProfilePictureShop" id="editProfilePictureShop" style="display:none;">
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editShopInfoModal">Edit shop</button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#removeShopPhotoModal">Delete photo</button>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#removeShopModal">Delete shop (DANGER)</button>
+                                            </li>
+                                        </div>
+                                    </div>
                                 </div>
-                            <?php else : ?>
-                                <p class='fs-4 fw-medium text-center'>Doesn't own shop</p>
-                                <div class='d-flex justify-content-center' id='registerShop'>
-                                    <a href='../shop/registerShop.php' class='btn btn-secondary m-1'>Register shop</a>
-                                </div>
-                            <?php endif; ?>
+                                <script>
+                                    const uploadButtonShop = document.querySelector('#uploadButtonShop');
+                                    const uploadInputShop = document.querySelector('#editProfilePictureShop');
+                                    uploadButtonShop.addEventListener('click', () => {
+                                        uploadInputShop.click();
+                                    });
+                                    uploadInputShop.addEventListener('change', () => {
+                                        document.querySelector('#uploadFormShop').submit();
+                                    });
+                                </script>
                         </div>
+                    <?php else : ?>
+                        <p class='fs-4 fw-medium text-center'>Doesn't own shop</p>
+                        <div class='d-flex justify-content-center' id='registerShop'>
+                            <a href='registerShop.php' class='btn btn-secondary m-1'>Register shop</a>
+                        </div>
+                    <?php endif; ?>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
     </main>
-    <div class="modal fade" id="editProfileInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editProfileInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <form action="../php/editProfileInfo.php" method="post" enctype='multipart/form-data'>
                 <div class="modal-content">
@@ -225,27 +253,104 @@ session_start();
             </form>
         </div>
     </div>
-    <div class="modal fade" id="editProfilePictureModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="../php/editProfilePicture.php" method="post" enctype='multipart/form-data'>
+    <div class="modal fade" id="editShopInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-fullscreen">
+            <form action="../php/editShopInfo.php" method="post" enctype='multipart/form-data'>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit picture</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit shop info</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div>
-                            <input type="file" name="editProfilePicture" id="editProfilePicture">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="d-flex flex-column me-2">
+                                        <p class="text-center">Use this map to enter Longitude and Latitude data</p>
+                                        <div id="editMap" style="height: 200px; justify-content: center;">
+                                            <script>
+                                                document.addEventListener("DOMContentLoaded", function() {
+                                                    var shopLatitude = <?php echo $_SESSION["assetLatitude"]; ?>;
+                                                    var shopLongitude = <?php echo $_SESSION["assetLongitude"]; ?>;
+
+                                                    const editMap = L.map("editMap").setView([shopLatitude, shopLongitude], 20);
+                                                    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(editMap);
+                                                    L.marker([shopLatitude, shopLongitude]).addTo(editMap);
+                                                    editMap.on('click', updateMarkerLocation());
+                                                    map.on('click', updateMarkerLocation());
+
+                                                    function updateMarkerLocation(e) {
+                                                        map.on('click', function(e) {
+                                                            let newLatitude = e.latlng.lat;
+                                                            let newLongitude = e.latlng.lng;
+
+                                                            shopLocationMarker.setLatLng([newLatitude, newLongitude]);
+                                                            shopLocationMarker.bindPopup("Your shop is located at latitude " + newLatitude + " and longitude " + newLongitude + ".").openPopup();
+
+                                                            document.getElementById('editLongitude').value = newLatitude;
+                                                            document.getElementById('editLatitude').value = newLongitude;
+
+                                                            if (previousMarker) {
+                                                                map.removeLayer(previousMarker);
+                                                            }
+
+                                                            let clickedLat = e.latlng.lat;
+                                                            let clickedLng = e.latlng.lng;
+
+                                                            let clickedMarker = L.marker([clickedLat, clickedLng]).addTo(map);
+
+                                                            clickedMarker.bindPopup("Your shop location is in: " + clickedLat + ", " + clickedLng).openPopup();
+
+                                                            previousMarker = clickedMarker;
+
+                                                            document.getElementById("editLongitude").value = clickedLng;
+                                                            document.getElementById("editLatitude").value = clickedLat;
+                                                        });
+                                                    }
+                                                    let previousEditShopMarker = null;
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="col-sm-12 col-md-6 me-2">
+                                        <div>
+                                            <div>
+                                                <label for="shopName">
+                                                    Shop name
+                                                </label>
+                                                <br>
+                                                <input type="text" name="shopName" id="shopName" placeholder="Name your shop" class="p-2 rounded-4 w-75 mb-3" required value="<?php echo $_SESSION['assetName']; ?>">
+                                            </div>
+                                            <div>
+                                                <label for="latitude">
+                                                    Latitude
+                                                </label>
+                                                <br>
+                                                <input type="text" name="latitude" id="editLatitude" placeholder="Use the map to fill this" class="p-2 rounded-4 w-75 mb-3" required readonly value="<?php echo $_SESSION["assetLatitude"]; ?>">
+                                            </div>
+                                            <div>
+                                                <label for="longitude">
+                                                    Longitude
+                                                </label>
+                                                <br>
+                                                <input type="text" name="longitude" id="editLongitude" placeholder="Use the map to fill this" class="p-2 rounded-4 w-75 mb-3" required readonly value="<?php echo $_SESSION["assetLongitude"]; ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" value="Save" class="btn btn-primary mx-1" id="saveEdit">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
+                        <div class="modal-footer">
+                            <input type="submit" value="Save" class="btn btn-primary mx-1" id="saveEdit">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
             </form>
         </div>
     </div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
 </html>
